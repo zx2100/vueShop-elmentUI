@@ -3,8 +3,10 @@ import VueRouter from 'vue-router'
 import Login from 'views/login/Login'
 
 Vue.use(VueRouter)
-
-
+// 必要时加载
+const Console = () => import("components/console/Console")
+const Console_welcome = () => import ("components/console/Welcome")
+const Console_users = () => import ("components/users/Users")
 // 组件路由
 const routes = [
   {
@@ -17,8 +19,20 @@ const routes = [
   },
   {
     path: "/console",
-    component: () => import("views/console/Console")
-  }
+    component: Console,
+    redirect: "/console/welcome",
+    children: [
+      {
+        path: "welcome",
+        component: Console_welcome
+      },
+      {
+        path: "users",
+        component: Console_users
+      }
+    ]
+  },
+ 
 ]
 
 
@@ -30,10 +44,6 @@ const router = new VueRouter({
 
 // 挂载导航守卫，未登录的跳转到登陆页
 router.beforeEach((to, from, next) => {
-  
-  // ${//to and from are Route Object,next() must be called to resolve the hook}
-  // console.log(to)
-
   // 如果是直接访问登陆页，放行
   if (to.path == "/login") next()
   // 判断是否有token，如果没有则跳转到登陆页

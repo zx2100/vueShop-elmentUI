@@ -7,3 +7,11 @@ html, body, #app
   height: 100%;
   padding: 0px;
 }
+
+.el-breadcrumb {
+  margin-bottom: 15px;
+}
+
+.el-pagination {
+  margin-top: 15px;
+}
